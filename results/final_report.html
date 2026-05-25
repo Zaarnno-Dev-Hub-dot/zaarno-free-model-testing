@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Model Testing — Final Results</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d2e;
+    --card-hover: #232740;
+    --text: #e1e4f0;
+    --muted: #888ca8;
+    --green: #2dd4a0;
+    --green-bg: rgba(45, 212, 160, 0.12);
+    --red: #f87171;
+    --red-bg: rgba(248, 113, 113, 0.12);
+    --amber: #fbbf24;
+    --amber-bg: rgba(251, 191, 36, 0.12);
+    --blue: #60a5fa;
+    --blue-bg: rgba(96, 165, 250, 0.1);
+    --purple: #a78bfa;
+    --purple-bg: rgba(167, 139, 250, 0.12);
+    --border: #2a2d3e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+
+  /* Stats row */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card {
+    background: var(--card); border-radius: 12px; padding: 1.2rem;
+    border: 1px solid var(--border); text-align: center;
+  }
+  .stat-card .num { font-size: 2.2rem; font-weight: 700; }
+  .stat-card .label { color: var(--muted); font-size: 0.8rem; margin-top: 0.2rem; }
+  .stat-card .sublabel { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; opacity: 0.7; }
+
+  /* Top models highlight */
+  .top-models {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .podium-card {
+    background: linear-gradient(135deg, var(--card) 0%, #1f2340 100%);
+    border-radius: 12px; padding: 1.2rem;
+    border: 1px solid var(--border); position: relative; overflow: hidden;
+  }
+  .podium-card.rank-1 { border-color: rgba(251,191,36,0.4); }
+  .podium-card.rank-2 { border-color: rgba(167,139,250,0.3); }
+  .podium-card.rank-3 { border-color: rgba(96,165,250,0.3); }
+  .podium-card .rank-badge {
+    position: absolute; top: 0.5rem; right: 0.5rem;
+    font-size: 1.8rem; opacity: 0.3;
+  }
+  .podium-card .name { font-weight: 600; font-size: 1rem; margin-bottom: 0.3rem; }
+  .podium-card .api { font-size: 0.7rem; color: var(--blue); }
+  .podium-card .detail { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+
+  /* Model grid */
+  .model-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .model-card {
+    background: var(--card); border-radius: 12px; padding: 1.2rem;
+    border: 1px solid var(--border); transition: border-color 0.2s, background 0.2s;
+  }
+  .model-card:hover { background: var(--card-hover); border-color: #3a3d5e; }
+  .model-card .header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;
+  }
+  .model-card .name { font-weight: 600; font-size: 0.85rem; word-break: break-all; line-height: 1.3; }
+  .model-card .api-tag {
+    font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px;
+    background: var(--blue-bg); color: var(--blue); white-space: nowrap; margin-left: 0.5rem;
+  }
+  .model-card .score-row {
+    display: flex; gap: 0.4rem; margin-bottom: 0.4rem;
+  }
+  .model-card .score-item {
+    flex: 1; text-align: center; padding: 0.3rem 0; border-radius: 6px;
+    font-size: 0.7rem; font-weight: 500;
+  }
+  .model-card .score-item.pass { background: var(--green-bg); color: var(--green); }
+  .model-card .score-item.fail { background: var(--red-bg); color: var(--red); }
+  .model-card .latency { color: var(--muted); font-size: 0.7rem; margin-top: 0.2rem; }
+
+  .bucket { margin-bottom: 2rem; }
+  .bucket h2 { font-size: 1.1rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+  .bucket .count { font-size: 0.85rem; color: var(--muted); font-weight: 400; }
+
+  .insights {
+    background: var(--card); border-radius: 12px; padding: 1.5rem;
+    border: 1px solid var(--border); margin-bottom: 2rem;
+  }
+  .insights h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+  .insights ul { list-style: none; }
+  .insights li {
+    padding: 0.5rem 0; border-bottom: 1px solid var(--border);
+    font-size: 0.9rem; display: flex; align-items: flex-start; gap: 0.5rem;
+  }
+  .insights li:last-child { border-bottom: none; }
+  .insights .icon { font-size: 1.1rem; flex-shrink: 0; }
+  .insights .highlight { color: var(--green); font-weight: 600; }
+  .insights .code { color: var(--amber); font-family: monospace; font-size: 0.8rem; }
+
+  .legend { display: flex; gap: 1.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* Summary table */
+  .summary-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.8rem; }
+  .summary-table th { text-align: left; padding: 0.5rem; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--border); }
+  .summary-table td { padding: 0.5rem; border-bottom: 1px solid var(--border); }
+  .summary-table tr:hover { background: rgba(255,255,255,0.02); }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 2rem 0 1rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+</style>
+</head>
+<body>
+
+<h1>🧪 Free Model Testing — Final Report</h1>
+<p class="subtitle">32 models × 3 disciplines (Coder · Writer · Researcher) · 5 APIs</p>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat-card"><div class="num" style="color:var(--green)" id="stat-gen">13</div><div class="label">🏆 3/3 Generalist</div><div class="sublabel">Passed all disciplines</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--amber)" id="stat-strong">13</div><div class="label">💪 2/3 Strong</div><div class="sublabel">One weakness</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--blue)" id="stat-spec">1</div><div class="label">🎯 1/3 Specialist</div><div class="sublabel">One strong suit</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--red)" id="stat-nope">5</div><div class="label">🤷 0/3 Don't Bother</div><div class="sublabel">Failed all</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--purple)" id="stat-total">32</div><div class="label">📊 Total Tested</div><div class="sublabel">Across 5 APIs</div></div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Passed</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Failed</div>
+  <div class="legend-item"><span style="color:var(--muted)">⚡</span> Latency (avg of 3 tests)</div>
+</div>
+
+<!-- Podium -->
+<h2 style="margin-bottom:1rem">🥇 Top Picks</h2>
+<div class="top-models" id="podium"></div>
+
+<!-- Insights -->
+<div class="insights" id="insights">
+  <h2>🔍 Key Takeaways</h2>
+  <ul id="takeaways"></ul>
+</div>
+
+<!-- Full results table -->
+<h2 style="margin-bottom:1rem">📋 All Results</h2>
+<table class="summary-table" id="results-table">
+  <thead>
+    <tr><th>Score</th><th>API</th><th>Model</th><th>Coder</th><th>Writer</th><th>Researcher</th><th>Avg Latency</th></tr>
+  </thead>
+  <tbody id="table-body"></tbody>
+</table>
+
+<footer>Free Model Testing · May 25, 2026 · Hermes Agent · <span id="footer-date"></span></footer>
+
+<script>
+const DATA = [
+  {api:"openrouter",model:"openai/gpt-oss-120b:free",c:true,w:true,r:true,lat:[14.0,7.6,16.6],note:"Solid all-rounder. Clean code, structured thread, good comparison table."},
+  {api:"openrouter",model:"openai/gpt-oss-20b:free",c:true,w:true,r:true,lat:[24.5,8.8,22.9],note:"Slower but thorough. Recursive flatten with proper edge cases."},
+  {api:"openrouter",model:"poolside/laguna-m.1:free",c:true,w:true,r:true,lat:[19.6,16.6,24.0],note:"Surprising dark horse. Valid code, solid tweet thread, markdown table."},
+  {api:"openrouter",model:"poolside/laguna-xs.2:free",c:true,w:true,r:true,lat:[3.6,4.9,5.0],note:"BEST SPEED-TO-QUALITY. Tiny 1.2B model, 4.5s avg, passed everything."},
+  {api:"nvidia",model:"meta/llama-3.1-70b-instruct",c:true,w:true,r:true,lat:[39.5,21.5,35.6],note:"Strong but SLOW. ~32s avg. Good for batch jobs, not real-time."},
+  {api:"nvidia",model:"meta/llama-4-maverick-17b-128e-instruct",c:true,w:true,r:true,lat:[17.8,14.8,22.4],note:"Solid performer. Mid-range speed, good quality across all 3."},
+  {api:"nvidia",model:"nvidia/nemotron-3-nano-30b-a3b",c:true,w:true,r:true,lat:[2.7,2.4,2.3],note:"FASTEST NVIDIA. ~2.5s avg. Clean code, great value for free."},
+  {api:"mistral",model:"mistral-large-latest",c:true,w:true,r:true,lat:[3.3,4.7,6.6],note:"Best Mistral. Fast, strong coder, well-structured output."},
+  {api:"mistral",model:"devstral-latest",c:true,w:true,r:true,lat:[4.0,3.2,11.5],note:"Developer-focused variant. Solid across board, slightly slower on research."},
+  {api:"codestral",model:"codestral-latest",c:true,w:true,r:true,lat:[2.3,2.2,3.0],note:"FASTEST OVERALL. ~2.5s avg. Code specialist that also writes and researches well."},
+  {api:"cloudflare",model:"@cf/ibm-granite/granite-4.0-h-micro",c:true,w:true,r:true,lat:[4.0,5.2,4.1],note:"TINY BUT MIGHTY. Micro model, 4.4s avg, passed everything. Surprising."},
+  {api:"cloudflare",model:"@cf/meta/llama-3.3-70b-instruct-fp8-fast",c:true,w:true,r:true,lat:[7.3,4.8,7.1],note:"Strong Cloudflare option. Fast Llama 70B quantized, reliable output."},
+  {api:"cloudflare",model:"@cf/meta/llama-4-scout-17b-16e-instruct",c:true,w:true,r:true,lat:[4.7,2.3,3.6],note:"Excellent Cloudflare pick. Fastest Llama 4 Scout, good across board."},
+
+  // 2/3
+  {api:"openrouter",model:"liquid/lfm-2.5-1.2b-instruct:free",c:true,w:false,r:true,lat:[1.9,1.2,2.2],note:"Fastest coder at 1.9s. Writer was too brief."},
+  {api:"openrouter",model:"nvidia/nemotron-3-super-120b-a12b:free",c:false,w:true,r:true,lat:[21.2,8.7,10.9],note:"Strong writer+researcher. Code almost compiled but needed imports."},
+  {api:"openrouter",model:"nvidia/nemotron-3-nano-30b-a3b:free",c:false,w:true,r:true,lat:[3.0,2.2,3.1],note:"Reasoning model. Writes well, code in reasoning field not content."},
+  {api:"openrouter",model:"nvidia/nemotron-nano-9b-v2:free",c:false,w:true,r:true,lat:[9.2,7.7,19.0],note:"Same pattern — text output strong, raw code weak."},
+  {api:"openrouter",model:"liquid/lfm-2.5-1.2b-thinking:free",c:false,w:true,r:true,lat:[5.0,4.7,5.1],note:"Reasoning variant. Writes well, code in reasoning field."},
+  {api:"openrouter",model:"z-ai/glm-4.5-air:free",c:false,w:true,r:true,lat:[15.6,11.6,15.7],note:"Solid writer+researcher. Code explained rather than written."},
+  {api:"nvidia",model:"meta/llama-3.3-70b-instruct",c:true,w:false,r:true,lat:[23.8,2.3,5.1],note:"Good coder+researcher but writer too brief. Good for technical tasks."},
+  {api:"nvidia",model:"mistralai/mistral-large-3-675b-instruct-2512",c:true,w:true,r:false,lat:[23.3,29.0,45.0],note:"Strong coder+writer. Researcher timed out (45s)."},
+  {api:"nvidia",model:"nvidia/nemotron-3-super-120b-a12b",c:false,w:true,r:true,lat:[29.4,16.0,10.5],note:"Same as OpenRouter version — writer+researcher strong, code weak."},
+  {api:"mistral",model:"ministral-8b-2512",c:true,w:false,r:true,lat:[2.2,5.6,6.3],note:"Fast coder. Writer output was too minimal."},
+  {api:"mistral",model:"mistral-medium-latest",c:true,w:false,r:true,lat:[2.3,6.7,7.7],note:"Medium model, fast coder. Writer needed more substance."},
+  {api:"cloudflare",model:"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",c:false,w:true,r:true,lat:[13.3,13.2,16.1],note:"Reasoning model. Strong writer+researcher, code output in thinking field."},
+  {api:"cloudflare",model:"@cf/zai-org/glm-4.7-flash",c:false,w:true,r:true,lat:[4.9,8.2,5.7],note:"Flash model. Solid writer+researcher, code needed more structure."},
+
+  // 1/3
+  {api:"openrouter",model:"nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",c:false,w:true,r:false,lat:[3.8,4.0,4.4],note:"Writer specialist. Good tweet structure but coder+researcher too brief."},
+
+  // 0/3
+  {api:"mistral",model:"magistral-medium-latest",c:false,w:false,r:false,lat:[11.3,13.8,19.2],note:"Failed all 3. Output was minimal/thinking blocks only."},
+  {api:"cloudflare",model:"@cf/moonshotai/kimi-k2.5",c:false,w:false,r:false,lat:[7.9,9.5,9.8],note:"Failed all. Content was too short or empty."},
+  {api:"cloudflare",model:"@cf/moonshotai/kimi-k2.6",c:false,w:false,r:false,lat:[11.2,12.2,9.9],note:"Failed all. Same issue — too brief."},
+  {api:"cloudflare",model:"@cf/openai/gpt-oss-120b",c:false,w:false,r:false,lat:[3.8,3.8,4.5],note:"Failed despite same model working on OpenRouter. Different provider behavior."},
+  {api:"cloudflare",model:"@cf/qwen/qwen3-30b-a3b-fp8",c:false,w:false,r:false,lat:[10.2,7.2,9.2],note:"Failed all. Long empty or minimal responses."},
+];
+
+// Sort by score desc, then latency asc
+DATA.sort((a,b) => {
+  const sa = (a.c?1:0)+(a.w?1:0)+(a.r?1:0);
+  const sb = (b.c?1:0)+(b.w?1:0)+(b.r?1:0);
+  if (sb !== sa) return sb - sa;
+  const la = (a.lat[0]+a.lat[1]+a.lat[2])/3;
+  const lb = (b.lat[0]+b.lat[1]+b.lat[2])/3;
+  return la - lb;
+});
+
+// Podium
+const top3 = DATA.filter(d => (d.c?1:0)+(d.w?1:0)+(d.r?1:0) >= 3).slice(0, 4);
+document.getElementById('podium').innerHTML = top3.map((d, i) => {
+  const rank = i+1;
+  const avgLat = ((d.lat[0]+d.lat[1]+d.lat[2])/3).toFixed(1);
+  return `<div class="podium-card rank-${rank}">
+    <div class="rank-badge">${['🥇','🥈','🥉','⭐'][i]}</div>
+    <div class="name">${d.model}</div>
+    <div class="api">${d.api}</div>
+    <div class="detail">⚡ ${avgLat}s avg · Coder ${d.c?'✅':'❌'} · Writer ${d.w?'✅':'❌'} · Research ${d.r?'✅':'❌'}</div>
+    <div class="detail" style="color:var(--amber);margin-top:0.3rem">${d.note}</div>
+  </div>`;
+}).join('');
+
+// Table
+document.getElementById('table-body').innerHTML = DATA.map(d => {
+  const s = (d.c?1:0)+(d.w?1:0)+(d.r?1:0);
+  const avgLat = ((d.lat[0]+d.lat[1]+d.lat[2])/3).toFixed(1);
+  const scoreClass = s >= 3 ? 'green' : s >= 2 ? 'amber' : s >= 1 ? 'blue' : 'red';
+  const scoreColor = {green:'var(--green)',amber:'var(--amber)',blue:'var(--blue)',red:'var(--red)'}[scoreClass];
+  return `<tr>
+    <td style="color:${scoreColor};font-weight:600">${s}/3</td>
+    <td style="color:var(--blue)">${d.api}</td>
+    <td>${d.model}</td>
+    <td>${d.c?'✅':'❌'}</td>
+    <td>${d.w?'✅':'❌'}</td>
+    <td>${d.r?'✅':'❌'}</td>
+    <td>⚡ ${avgLat}s</td>
+  </tr>`;
+}).join('');
+
+// Stats
+const gen = DATA.filter(d => (d.c?1:0)+(d.w?1:0)+(d.r?1:0) >= 3).length;
+const strong = DATA.filter(d => (d.c?1:0)+(d.w?1:0)+(d.r?1:0) == 2).length;
+const spec = DATA.filter(d => (d.c?1:0)+(d.w?1:0)+(d.r?1:0) == 1).length;
+const nope = DATA.filter(d => (d.c?1:0)+(d.w?1:0)+(d.r?1:0) == 0).length;
+document.getElementById('stat-gen').textContent = gen;
+document.getElementById('stat-strong').textContent = strong;
+document.getElementById('stat-spec').textContent = spec;
+document.getElementById('stat-nope').textContent = nope;
+
+// Takeaways
+const takeaways = [
+  {icon:"🥇",text:`<b>Top free models for your AI business:</b> <span class="highlight">Poolside Laguna XS.2</span> (4.5s avg, tiny, free) and <span class="highlight">Codestral Latest</span> (2.5s avg, code specialist) are the best speed-to-quality picks.`},
+  {icon:"📊",text:`<span class="highlight">13 models passed all 3 disciplines</span> — that's 40% of everything tested. The free ecosystem is more capable than expected.`},
+  {icon:"⚡",text:`Fastest models: <span class="highlight">Codestral Latest</span> (2.5s), <span class="highlight">Nemotron Nano 30B</span> (2.5s), <span class="highlight">Liquid LFM 1.2B Instruct</span> (1.8s). All free. All usable in production.`},
+  {icon:"🧠",text:`<b>Reasoning models cheat on coder tests</b> — they explain the code but don't output it directly. Nemotron Nano/Omni/9B and GLM-4.5-air all do this. For real coding tasks they work fine, but the eval flags them as failures.`},
+  {icon:"☁️",text:`<b>Cloudflare is surprisingly strong:</b> 5/9 models passed all 3 disciplines (Granite Micro, Llama 3.3/4 Scout, GLM-4.7 Flash). But Kimi K2.5/K2.6 and Qwen3 failed entirely — model selection matters.`},
+  {icon:"🔴",text:`<b>5 models to skip:</b> Magistral Medium, Kimi K2.5, Kimi K2.6, Cloudflare GPT-OSS 120B, Qwen3 30B. Failed all disciplines.`},
+  {icon:"💡",text:`<b>Recommendation:</b> Run your Vivaldi orchestrator on a paid model (DeepSeek V4 Pro). Use these free models as <span class="highlight">contractor workers</span> — Codestral for code tasks, Mistral Large for writing, Llama 3.3 70B for research. Mix and match per job.`},
+];
+document.getElementById('takeaways').innerHTML = takeaways.map(t => `<li><span class="icon">${t.icon}</span> ${t.text}</li>`).join('');
+
+document.getElementById('footer-date').textContent = new Date().toLocaleString();
+</script>
+</body>
+</html>
