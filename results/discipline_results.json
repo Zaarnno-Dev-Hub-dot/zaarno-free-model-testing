@@ -1,0 +1,561 @@
+[
+  {
+    "api": "openrouter",
+    "model": "liquid/lfm-2.5-1.2b-instruct:free",
+    "disciplines": {
+      "coder": {
+        "pass": true,
+        "latency": 1.94,
+        "eval": {
+          "pass": true,
+          "has_function": true,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": true,
+          "code_block_count": 1
+        },
+        "content_preview": "```python\ndef flatten_json(nested_dict):\n    result = {}\n\n    def flatten(d, prefix=''):\n        if isinstance(d, dict):\n            for key, value in d.items():\n                new_key = f\"{prefix}.{"
+      },
+      "writer": {
+        "pass": false,
+        "latency": 1.18,
+        "eval": {
+          "pass": false,
+          "structure": false,
+          "has_cta": false,
+          "length": 489
+        },
+        "content_preview": "\ud83d\udea8 Suffering from time-consuming test case creation? Here\u2019s a new AI tool that auto-generates test cases directly from PR descriptions. It slashes your cycle and keeps your PRs fully validated. #AIinEn"
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 2.2,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "Here's a quick competitive analysis of **AI code review tools**: CodeRabbit, Graphite, and Qodo (formerly CodiumAI).  \n| Feature/Landmark | CodeRabbit | Graphite | Qodo (formerly CodiumAI) |\n|--------"
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "openai/gpt-oss-120b:free",
+    "disciplines": {
+      "coder": {
+        "pass": true,
+        "latency": 14.03,
+        "eval": {
+          "pass": true,
+          "has_function": true,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": true,
+          "code_block_count": 1
+        },
+        "content_preview": "```python\nfrom collections.abc import Mapping, Sequence\n\ndef flatten_json(nested_dict):\n    \"\"\"\n    Flatten a nested mixture of dicts, lists and scalar values into a single\n    dictionary using dot\u2011no"
+      },
+      "writer": {
+        "pass": true,
+        "latency": 7.59,
+        "eval": {
+          "pass": true,
+          "structure": false,
+          "has_cta": true,
+          "length": 665
+        },
+        "content_preview": "**Tweet\u202f1\ufe0f\u20e3**  \nTired of hunting for edge\u2011case tests every time a PR lands? Missed bugs slip through, code\u2011review cycles stretch, and the \u201cI\u2019ll add tests later\u201d habit kills velocity. \ud83d\ude80  \n\n**Tweet\u202f2\ufe0f\u20e3*"
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 16.64,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "**Competitive Analysis: AI\u2011Powered Code Review Tools**  \n\n| Tool | Pricing Model* | Key Differentiator | One Notable Limitation |\n|------|----------------|--------------------|------------------------"
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "openai/gpt-oss-20b:free",
+    "disciplines": {
+      "coder": {
+        "pass": true,
+        "latency": 24.5,
+        "eval": {
+          "pass": true,
+          "has_function": true,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": true,
+          "code_block_count": 1
+        },
+        "content_preview": "```python\ndef flatten_json(nested, parent_prefix=\"\", sep=\".\"):\n    \"\"\"\n    Recursively flatten a nested dict/list into a single level dictionary.\n    Keys are dot\u2011notation strings.  Empty containers a"
+      },
+      "writer": {
+        "pass": true,
+        "latency": 8.79,
+        "eval": {
+          "pass": true,
+          "structure": false,
+          "has_cta": true,
+          "length": 719
+        },
+        "content_preview": "**Tweet\u202f1**  \n\ud83d\udc4b Senior engineers: ever spent hours writing tests after a PR only to realize they\u2019re missing edge\u2011cases or duplicating work? We\u2019ve seen the frustration. Imagine that time line\u202ffolded\u2014no"
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 22.94,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "Below is a quick competitive snapshot of the three AI\u2011powered code\u2011review tools you asked about: **CodeRabbit**, **Graphite**, and **Qodo (formerly CodiumAI)**.  \n*(All information is accurate to the "
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "disciplines": {
+      "coder": {
+        "pass": false,
+        "latency": 21.2,
+        "eval": {
+          "pass": false,
+          "has_function": true,
+          "has_return": false,
+          "has_dict_handling": true,
+          "compiled": false,
+          "code_block_count": 1
+        },
+        "content_preview": "```python\ndef flatten_json(nested_dict, parent_key='', sep='.'):\n    \"\"\"Flatten a nested dict/list structure into a flat dict with dot\u2011notation keys.\n\n    Args:\n        nested_dict: The dict/list (or "
+      },
+      "writer": {
+        "pass": true,
+        "latency": 8.65,
+        "eval": {
+          "pass": true,
+          "structure": false,
+          "has_cta": false,
+          "length": 1060
+        },
+        "content_preview": "We need to produce a 3-tweet thread. Each tweet under 280 characters. Target senior engineers skeptical of AI tools. Hook pain point, explain how it works, call to action. Should be concise, maybe wit"
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 10.86,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "We need to produce a markdown table with columns: Tool, Pricing Model, Key Differentiator, One Limitation. Provide info on CodeRabbit, Graphite, Qodo (formerly CodiumAI). Must be quick competitive ana"
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "nvidia/nemotron-3-nano-30b-a3b:free",
+    "disciplines": {
+      "coder": {
+        "pass": false,
+        "latency": 3.01,
+        "eval": {
+          "pass": false,
+          "has_function": false,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": false,
+          "code_block_count": 0
+        },
+        "content_preview": "Okay, the user wants a Python function called flatten_json that takes a nested dictionary and returns a flat dictionary with dot notation keys. They mentioned handling all edge cases like empty object"
+      },
+      "writer": {
+        "pass": true,
+        "latency": 2.18,
+        "eval": {
+          "pass": true,
+          "structure": true,
+          "has_cta": true,
+          "length": 1992
+        },
+        "content_preview": "We need to produce a 3-tweet thread, each tweet <280 chars. Target: senior engineers skeptical of AI tools. So tone: factual, addressing skepticism, highlighting benefits, reliability. Include pain po"
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 3.11,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "**Competitive Analysis of AI\u2011Powered Code Review Tools**  \n*(information current as of\u202fNov\u202f2025 \u2013 pricing tiers are approximate and may vary by region or usage volume)*  \n\n| Tool | Pricing Model | Key"
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    "disciplines": {
+      "coder": {
+        "pass": false,
+        "latency": 3.82,
+        "eval": {
+          "pass": false,
+          "has_function": false,
+          "has_return": false,
+          "has_dict_handling": false,
+          "compiled": true,
+          "code_block_count": 0
+        },
+        "content_preview": "We"
+      },
+      "writer": {
+        "pass": true,
+        "latency": 3.96,
+        "eval": {
+          "pass": true,
+          "structure": true,
+          "has_cta": false,
+          "length": 1336
+        },
+        "content_preview": "We need 3 tweets, each under 280 characters. Target senior engineers skeptical of AI. First tweet hooks pain point. Second explains how it works. Third call to action.\n\nMake concise, maybe include som"
+      },
+      "researcher": {
+        "pass": false,
+        "latency": 4.43,
+        "eval": {
+          "pass": false,
+          "has_coderabbit": false,
+          "has_graphite": false,
+          "has_qodo": false,
+          "has_table": false,
+          "has_pricing": false
+        },
+        "content_preview": "We"
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "nvidia/nemotron-nano-9b-v2:free",
+    "disciplines": {
+      "coder": {
+        "pass": false,
+        "latency": 9.16,
+        "eval": {
+          "pass": false,
+          "has_function": false,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": false,
+          "code_block_count": 0
+        },
+        "content_preview": "Okay, I need to write a Python function called flatten_json that takes a nested dict or list structure and returns a flat dictionary with dot-notation keys. Hmm, let's think about how to approach this"
+      },
+      "writer": {
+        "pass": true,
+        "latency": 7.67,
+        "eval": {
+          "pass": true,
+          "structure": true,
+          "has_cta": true,
+          "length": 2321
+        },
+        "content_preview": "Okay, I need to create a three-tweet thread targeting senior engineers who are skeptical of AI tools. The tool auto-generates test cases from PR descriptions. Let me start by understanding the pain po"
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 18.97,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "| **Tool**       | **Pricing Model**                          | **Key Differentiator**                          | **Limitation**                              |\n|----------------|----------------------"
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "liquid/lfm-2.5-1.2b-thinking:free",
+    "disciplines": {
+      "coder": {
+        "pass": false,
+        "latency": 5.05,
+        "eval": {
+          "pass": false,
+          "has_function": false,
+          "has_return": false,
+          "has_dict_handling": true,
+          "compiled": false,
+          "code_block_count": 0
+        },
+        "content_preview": "Okay, let's see. I need to write a Python function called flatten_json that takes a nested dictionary and flattens it into a flat dictionary with dot-notation keys. Also, handle edge cases like empty "
+      },
+      "writer": {
+        "pass": true,
+        "latency": 4.65,
+        "eval": {
+          "pass": true,
+          "structure": true,
+          "has_cta": true,
+          "length": 2138
+        },
+        "content_preview": "Okay, let's tackle this. The user wants a 3-tweet thread announcing a new AI tool that auto-generates test cases from PR descriptions, targeting senior engineers who are skeptical of AI tools. The fir"
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 5.07,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "Okay, let's tackle this query. The user wants a competitive analysis table comparing CodeRabbit, Graphite, and Qodo (formerly CodiumAI) focusing on pricing, key differentiators, and limitations. First"
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "poolside/laguna-m.1:free",
+    "disciplines": {
+      "coder": {
+        "pass": true,
+        "latency": 19.58,
+        "eval": {
+          "pass": true,
+          "has_function": true,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": true,
+          "code_block_count": 1
+        },
+        "content_preview": "The user wants a Python function that flattens nested JSON structures (dicts and lists) into a flat dictionary with dot-notation keys. Let me think about the requirements:\n\n1. Handle nested dicts - ke"
+      },
+      "writer": {
+        "pass": true,
+        "latency": 16.61,
+        "eval": {
+          "pass": true,
+          "structure": true,
+          "has_cta": true,
+          "length": 702
+        },
+        "content_preview": "**Tweet 1:**  \nTired of reading PRs and thinking, \u201cDid they forget to test edge cases?\u201d  \nSenior engineers, you\u2019re right\u2014most \u201cAI test tools\u201d are snake oil. But what if we could auto-generate tests di"
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 23.96,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "# AI Code Review Tools Comparison\n\n| Tool | Pricing Model | Key Differentiator | One Limitation |\n|------|---------------|-------------------|----------------|\n| **CodeRabbit** | Free tier up to 50 re"
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "poolside/laguna-xs.2:free",
+    "disciplines": {
+      "coder": {
+        "pass": true,
+        "latency": 3.65,
+        "eval": {
+          "pass": true,
+          "has_function": true,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": true,
+          "code_block_count": 1
+        },
+        "content_preview": "The user wants me to write a Python function that flattens a nested dict/list structure into a flat dict with dot-notation keys. Let me think through the requirements:\n\n1. Takes any nested dict/list s"
+      },
+      "writer": {
+        "pass": true,
+        "latency": 4.94,
+        "eval": {
+          "pass": true,
+          "structure": true,
+          "has_cta": true,
+          "length": 2322
+        },
+        "content_preview": "Okay, the user wants me to create a 3-tweet thread for a new AI tool that auto-generates test cases from PR descriptions. The target audience is senior engineers who are skeptical of AI tools. Let me "
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 4.95,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "# AI Code Review Tools Competitive Analysis\n\n| Tool | Pricing Model | Key Differentiator | Key Limitation |\n|------|---------------|-------------------|----------------|\n| **CodeRabbit** | Freemium ti"
+      }
+    }
+  },
+  {
+    "api": "openrouter",
+    "model": "z-ai/glm-4.5-air:free",
+    "disciplines": {
+      "coder": {
+        "pass": false,
+        "latency": 15.6,
+        "eval": {
+          "pass": false,
+          "has_function": false,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": false,
+          "code_block_count": 0
+        },
+        "content_preview": "We are going to create a function that flattens a nested dictionary or list into a flat dictionary with dot-separated keys.\n We'll handle:\n   - dictionaries: keys will be separated by dots\n   - lists:"
+      },
+      "writer": {
+        "pass": true,
+        "latency": 11.62,
+        "eval": {
+          "pass": true,
+          "structure": true,
+          "has_cta": true,
+          "length": 2162
+        },
+        "content_preview": "We are writing a 3-tweet thread for senior engineers skeptical of AI tools.\n Target: Senior engineers who are skeptical of AI tools.\n Structure:\n   Tweet 1: Hook with the pain point.\n   Tweet 2: Expla"
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 15.71,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": false,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "```markdown\n| Tool         | Pricing Model                          | Key Differentiator                                    | One Limitation                                      |\n|--------------|----"
+      }
+    }
+  },
+  {
+    "api": "nvidia",
+    "model": "meta/llama-3.3-70b-instruct",
+    "disciplines": {
+      "coder": {
+        "pass": true,
+        "latency": 23.75,
+        "eval": {
+          "pass": true,
+          "has_function": true,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": true,
+          "code_block_count": 1
+        },
+        "content_preview": "```python\ndef flatten_json(nested_dict, parent_key='', separator='.'):\n    \"\"\"\n    Flattens a nested dict/list structure into a flat dict with dot-notation keys.\n\n    Args:\n        nested_dict (dict o"
+      },
+      "writer": {
+        "pass": false,
+        "latency": 2.33,
+        "eval": {
+          "pass": false,
+          "structure": false,
+          "has_cta": true,
+          "length": 500
+        },
+        "content_preview": "1/3: Tired of writing test cases from scratch? We feel you. Manual test case creation is a time-suck, taking away from high-leverage work. \n\n2/3: Introducing AutoTest: AI-powered test case generation "
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 5.1,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "### Competitive Analysis of AI Code Review Tools\nAfter conducting research, here is a comparison of CodeRabbit, Graphite, and Qodo (formerly CodiumAI) in a markdown table:\n\n| Tool | Pricing Model | Ke"
+      }
+    }
+  },
+  {
+    "api": "nvidia",
+    "model": "meta/llama-3.1-70b-instruct",
+    "disciplines": {
+      "coder": {
+        "pass": true,
+        "latency": 39.46,
+        "eval": {
+          "pass": true,
+          "has_function": true,
+          "has_return": true,
+          "has_dict_handling": true,
+          "compiled": true,
+          "code_block_count": 1
+        },
+        "content_preview": "```python\ndef flatten_json(nested_dict, prefix=''):\n    \"\"\"\n    Flattens any nested dict/list structure into a flat dict with dot-notation keys.\n\n    Args:\n        nested_dict (dict or list): The nest"
+      },
+      "writer": {
+        "pass": true,
+        "latency": 21.54,
+        "eval": {
+          "pass": true,
+          "structure": false,
+          "has_cta": true,
+          "length": 827
+        },
+        "content_preview": "Here's a 3-tweet thread announcing the new AI tool:\n\n1/3 We've all been there: staring at a PR description, trying to come up with test cases that cover every edge case. It's tedious, time-consuming, "
+      },
+      "researcher": {
+        "pass": true,
+        "latency": 35.57,
+        "eval": {
+          "pass": true,
+          "has_coderabbit": true,
+          "has_graphite": true,
+          "has_qodo": true,
+          "has_table": true,
+          "has_pricing": true
+        },
+        "content_preview": "| **Tool** | **Pricing Model** | **Key Differentiator** | **Limitation** |\n| --- | --- | --- | --- |\n| **CodeRabbit** | Custom pricing for enterprises, no public pricing available | Integrates with ex"
+      }
+    }
+  }
+]

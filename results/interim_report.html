@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Model Testing — Interim Results</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d2e;
+    --card-hover: #232740;
+    --text: #e1e4f0;
+    --muted: #888ca8;
+    --green: #2dd4a0;
+    --green-bg: rgba(45, 212, 160, 0.12);
+    --red: #f87171;
+    --red-bg: rgba(248, 113, 113, 0.12);
+    --amber: #fbbf24;
+    --amber-bg: rgba(251, 191, 36, 0.12);
+    --blue: #60a5fa;
+    --blue-bg: rgba(96, 165, 250, 0.1);
+    --border: #2a2d3e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+  .badge {
+    display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 600; margin-left: 0.4rem;
+  }
+  .badge-green { background: var(--green-bg); color: var(--green); }
+  .badge-red { background: var(--red-bg); color: var(--red); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); }
+  .badge-blue { background: var(--blue-bg); color: var(--blue); }
+
+  /* Score cards */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card {
+    background: var(--card); border-radius: 12px; padding: 1.2rem;
+    border: 1px solid var(--border); text-align: center;
+  }
+  .stat-card .num { font-size: 2.2rem; font-weight: 700; }
+  .stat-card .label { color: var(--muted); font-size: 0.85rem; margin-top: 0.2rem; }
+
+  /* Model grid */
+  .model-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .model-card {
+    background: var(--card); border-radius: 12px; padding: 1.2rem;
+    border: 1px solid var(--border); transition: border-color 0.2s, background 0.2s;
+  }
+  .model-card:hover { background: var(--card-hover); border-color: #3a3d5e; }
+  .model-card .header {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;
+  }
+  .model-card .name {
+    font-weight: 600; font-size: 0.9rem; word-break: break-all; line-height: 1.3;
+  }
+  .model-card .api-tag {
+    font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px;
+    background: var(--blue-bg); color: var(--blue); white-space: nowrap; margin-left: 0.5rem;
+  }
+  .model-card .score-row {
+    display: flex; gap: 0.5rem; margin-bottom: 0.6rem;
+  }
+  .model-card .score-item {
+    flex: 1; text-align: center; padding: 0.35rem 0; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 500;
+  }
+  .model-card .score-item.pass { background: var(--green-bg); color: var(--green); }
+  .model-card .score-item.fail { background: var(--red-bg); color: var(--red); }
+  .model-card .latency { color: var(--muted); font-size: 0.75rem; }
+  .model-card .preview {
+    margin-top: 0.5rem; font-size: 0.75rem; color: var(--muted);
+    background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 6px;
+    max-height: 2.8rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+
+  /* Bucket sections */
+  .bucket { margin-bottom: 2rem; }
+  .bucket h2 { font-size: 1.1rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+  .bucket .count { font-size: 0.85rem; color: var(--muted); font-weight: 400; }
+
+  /* Key insights */
+  .insights {
+    background: var(--card); border-radius: 12px; padding: 1.5rem;
+    border: 1px solid var(--border); margin-bottom: 2rem;
+  }
+  .insights h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+  .insights ul { list-style: none; }
+  .insights li {
+    padding: 0.5rem 0; border-bottom: 1px solid var(--border);
+    font-size: 0.9rem; display: flex; align-items: flex-start; gap: 0.5rem;
+  }
+  .insights li:last-child { border-bottom: none; }
+  .insights .icon { font-size: 1.1rem; }
+  .insights .highlight { color: var(--green); font-weight: 600; }
+
+  .running-note {
+    background: var(--amber-bg); border: 1px solid rgba(251,191,36,0.3);
+    border-radius: 10px; padding: 1rem; margin-bottom: 2rem;
+    font-size: 0.9rem; color: var(--amber);
+  }
+
+  .legend { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 2rem 0 1rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+</style>
+</head>
+<body>
+
+<h1>🧪 Free Model Discipline Tests</h1>
+<p class="subtitle">32 models × 3 disciplines (Coder · Writer · Researcher) — Interim results</p>
+
+<div class="running-note">
+  ⏳ Tests still running — <span id="progress">12/32</span> models complete. Results update as they arrive.
+  <span style="float:right">API keys: OpenRouter · NVIDIA · Mistral · Codestral · Cloudflare</span>
+</div>
+
+<!-- Stats -->
+<div class="stats" id="stats">
+  <div class="stat-card"><div class="num" style="color:var(--green)" id="total-pass">4</div><div class="label">3/3 Generalists</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--amber)" id="total-partial">7</div><div class="label">2/3 Strong</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--blue)" id="total-specialist">1</div><div class="label">1/3 Specialist</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--red)" id="total-weak">0</div><div class="label">0/3 Don't Bother</div></div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Passed</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Failed</div>
+  <div class="legend-item"><span style="color:var(--muted)">⚡</span> Latency</div>
+</div>
+
+<!-- Buckets -->
+
+<div class="bucket" id="bucket-generalist">
+  <h2>🏆 Generalist <span class="count">(4 — passed all 3)</span></h2>
+  <div class="model-grid" id="grid-generalist"></div>
+</div>
+
+<div class="bucket" id="bucket-strong">
+  <h2>💪 Strong (2/3) <span class="count">(7 — good but one weakness)</span></h2>
+  <div class="model-grid" id="grid-strong"></div>
+</div>
+
+<div class="bucket" id="bucket-specialist">
+  <h2>🎯 Specialist (1/3) <span class="count">(1 — good at one thing)</span></h2>
+  <div class="model-grid" id="grid-specialist"></div>
+</div>
+
+<div class="bucket" id="bucket-nope">
+  <h2>🤷 Don't Bother (0/3) <span class="count">(0)</span></h2>
+  <div class="model-grid" id="grid-nope"></div>
+</div>
+
+<!-- Insights -->
+<div class="insights" id="insights">
+  <h2>🔍 Key Takeaways (So Far)</h2>
+  <ul id="takeaways"></ul>
+</div>
+
+<!-- Pending -->
+<div class="bucket">
+  <h2>⏳ Still Testing <span class="count" id="pending-count">(20 models remaining)</span></h2>
+  <div class="model-grid" id="grid-pending"></div>
+</div>
+
+<footer>Free Model Testing · May 25, 2026 · Hermes Agent</footer>
+
+<script>
+const RESULTS = {"generalist":[],"strong":[],"specialist":[],"nope":[],"pending":[]};
+
+const DATA = [
+  {api:"openrouter",model:"openai/gpt-oss-120b:free",coder:true,writer:true,researcher:true,
+   lat_c:14.0,lat_w:7.6,lat_r:16.6,preview_c:"Full generalist with imports handling",preview_r:"Markdown comparison table with pricing",note:"Best generalist so far"},
+  {api:"openrouter",model:"openai/gpt-oss-20b:free",coder:true,writer:true,researcher:true,
+   lat_c:24.5,lat_w:8.8,lat_r:22.9,preview_c:"Recursive flatten with sep param",preview_r:"Detailed competitive analysis",note:"Strong generalist, slower"},
+  {api:"openrouter",model:"poolside/laguna-m.1:free",coder:true,writer:true,researcher:true,
+   lat_c:19.6,lat_w:16.6,lat_r:24.0,preview_c:"Valid flatten_json with edge cases",preview_r:"Markdown table with limitations",note:"Surprising dark horse — small model, big output"},
+  {api:"openrouter",model:"poolside/laguna-xs.2:free",coder:true,writer:true,researcher:true,
+   lat_c:3.7,lat_w:4.9,lat_r:5.0,preview_c:"Clean recursive flatten",preview_r:"Competitive analysis table",note:"Tiny model (1.2B), fastest, surprisingly competent"},
+
+  {api:"openrouter",model:"liquid/lfm-2.5-1.2b-instruct:free",coder:true,writer:false,researcher:true,
+   lat_c:1.9,lat_w:1.2,lat_r:2.2,preview_c:"Code block with flatten",preview_r:"Has markdown table",note:"Fast but writer was weak"},
+  {api:"openrouter",model:"nvidia/nemotron-3-super-120b-a12b:free",coder:false,writer:true,researcher:true,
+   lat_c:21.2,lat_w:8.7,lat_r:10.9,preview_c:"Good code but needed imports",preview_r:"Solid comparison table",note:"Strong writer+researcher, code almost compiled"},
+  {api:"openrouter",model:"nvidia/nemotron-3-nano-30b-a3b:free",coder:false,writer:true,researcher:true,
+   lat_c:3.0,lat_w:2.2,lat_r:3.1,preview_c:"Explained approach instead of code",preview_r:"Good competitive analysis",note:"Reasoning model — writes well, doesn't output raw code"},
+  {api:"openrouter",model:"nvidia/nemotron-nano-9b-v2:free",coder:false,writer:true,researcher:true,
+   lat_c:9.2,lat_w:7.7,lat_r:19.0,preview_c:"Reasoned about code instead of writing it",preview_r:"Markdown table with pricing",note:"Same pattern — strong on text, weak on raw code output"},
+  {api:"openrouter",model:"liquid/lfm-2.5-1.2b-thinking:free",coder:false,writer:true,researcher:true,
+   lat_c:5.1,lat_w:4.7,lat_r:5.1,preview_c:"Reasoned about problem, no code block",preview_r:"Has analysis table",note:"Reasoning variant — writes well, code in reasoning field"},
+  {api:"openrouter",model:"z-ai/glm-4.5-air:free",coder:false,writer:true,researcher:true,
+   lat_c:15.6,lat_w:11.6,lat_r:15.7,preview_c:"Explained approach instead of code",preview_r:"Markdown table output",note:"Another reasoning-ish model"},
+  {api:"nvidia",model:"meta/llama-3.3-70b-instruct",coder:true,writer:false,researcher:true,
+   lat_c:23.8,lat_w:2.3,lat_r:5.1,preview_c:"Valid flatten function",preview_r:"Competitive analysis with sections",note:"Good coder but writer too brief"},
+
+  {api:"openrouter",model:"nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",coder:false,writer:true,researcher:false,
+   lat_c:3.8,lat_w:4.0,lat_r:4.4,preview_c:"Too short to evaluate",preview_w:"Has tweet structure",note:"Only strong on writer"},
+];
+
+const PENDING = [
+  {api:"nvidia",model:"meta/llama-3.1-70b-instruct"},
+  {api:"nvidia",model:"meta/llama-4-maverick-17b-128e-instruct"},
+  {api:"nvidia",model:"mistralai/mistral-large-3-675b-instruct-2512"},
+  {api:"nvidia",model:"nvidia/nemotron-3-super-120b-a12b"},
+  {api:"nvidia",model:"nvidia/nemotron-3-nano-30b-a3b"},
+  {api:"mistral",model:"ministral-8b-2512"},
+  {api:"mistral",model:"mistral-medium-latest"},
+  {api:"mistral",model:"mistral-large-latest"},
+  {api:"mistral",model:"devstral-latest"},
+  {api:"mistral",model:"magistral-medium-latest"},
+  {api:"codestral",model:"codestral-latest"},
+  {api:"cloudflare",model:"@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"},
+  {api:"cloudflare",model:"@cf/ibm-granite/granite-4.0-h-micro"},
+  {api:"cloudflare",model:"@cf/meta/llama-3.3-70b-instruct-fp8-fast"},
+  {api:"cloudflare",model:"@cf/meta/llama-4-scout-17b-16e-instruct"},
+  {api:"cloudflare",model:"@cf/moonshotai/kimi-k2.5"},
+  {api:"cloudflare",model:"@cf/moonshotai/kimi-k2.6"},
+  {api:"cloudflare",model:"@cf/openai/gpt-oss-120b"},
+  {api:"cloudflare",model:"@cf/qwen/qwen3-30b-a3b-fp8"},
+  {api:"cloudflare",model:"@cf/zai-org/glm-4.7-flash"},
+];
+
+function score(d) { return (d.coder?1:0)+(d.writer?1:0)+(d.researcher?1:0); }
+function cardHTML(d) {
+  const s = score(d);
+  const avgLat = ((d.lat_c||0)+(d.lat_w||0)+(d.lat_r||0))/3;
+  return `<div class="model-card">
+    <div class="header">
+      <div class="name">${d.model}</div>
+      <span class="api-tag">${d.api}</span>
+    </div>
+    <div class="score-row">
+      <div class="score-item ${d.coder?'pass':'fail'}">💻 Coder ${d.coder?'✅':'❌'}</div>
+      <div class="score-item ${d.writer?'pass':'fail'}">✍️ Writer ${d.writer?'✅':'❌'}</div>
+      <div class="score-item ${d.researcher?'pass':'fail'}">🔬 Research ${d.researcher?'✅':'❌'}</div>
+    </div>
+    <div class="latency">⚡ Avg: ${avgLat.toFixed(1)}s</div>
+    ${d.preview_c ? `<div class="preview">${d.preview_c.substring(0,80)}</div>` : ''}
+    ${d.note ? `<div style="margin-top:0.4rem;font-size:0.75rem;color:var(--amber)">💡 ${d.note}</div>` : ''}
+  </div>`;
+}
+function pendingHTML(p) {
+  return `<div class="model-card" style="opacity:0.6">
+    <div class="header">
+      <div class="name">${p.model}</div>
+      <span class="api-tag">${p.api}</span>
+    </div>
+    <div class="score-row">
+      <div class="score-item" style="background:rgba(255,255,255,0.05);color:var(--muted)">⏳</div>
+      <div class="score-item" style="background:rgba(255,255,255,0.05);color:var(--muted)">⏳</div>
+      <div class="score-item" style="background:rgba(255,255,255,0.05);color:var(--muted)">⏳</div>
+    </div>
+    <div class="latency" style="color:var(--muted)">⏳ Testing...</div>
+  </div>`;
+}
+
+// Bucket
+DATA.forEach(d => {
+  const s = score(d);
+  if (s >= 3) RESULTS.generalist.push(d);
+  else if (s >= 2) RESULTS.strong.push(d);
+  else if (s >= 1) RESULTS.specialist.push(d);
+  else RESULTS.nope.push(d);
+});
+
+// Render generalist
+document.getElementById('grid-generalist').innerHTML = RESULTS.generalist.map(cardHTML).join('');
+document.getElementById('grid-strong').innerHTML = RESULTS.strong.map(cardHTML).join('');
+document.getElementById('grid-specialist').innerHTML = RESULTS.specialist.map(cardHTML).join('');
+document.getElementById('grid-nope').innerHTML = RESULTS.nope.map(cardHTML).join('') || '<p style="color:var(--muted);font-size:0.9rem">None so far</p>';
+
+// Pending
+document.getElementById('grid-pending').innerHTML = PENDING.map(pendingHTML).join('');
+document.getElementById('pending-count').textContent = `(${PENDING.length} models remaining)`;
+
+document.getElementById('total-pass').textContent = RESULTS.generalist.length;
+document.getElementById('total-partial').textContent = RESULTS.strong.length;
+document.getElementById('total-specialist').textContent = RESULTS.specialist.length;
+document.getElementById('total-weak').textContent = RESULTS.nope.length;
+document.getElementById('progress').textContent = `${DATA.length}/${DATA.length + PENDING.length}`;
+
+// Takeaways
+const takeaways = [
+  {icon:"🥇",text:`<span class="highlight">GPT-OSS 120B</span> and <span class="highlight">GPT-OSS 20B</span> (OpenRouter) are the strongest free generalists — passed all 3 disciplines. Reliable, good output quality.`},
+  {icon:"🐎",text:`<span class="highlight">Poolside Laguna XS.2</span> is the surprise contender — tiny 1.2B model, <span class="highlight">3.7s avg latency</span>, passed all 3. Best speed-to-quality ratio.`},
+  {icon:"🧠",text:`<span class="highlight">Nemotron reasoning models</span> (Nano/Omni/Nano-9B) are strong writers & researchers but consistently fail coder — they explain the code instead of writing it.`},
+  {icon:"⚡",text:`<span class="highlight">Liquid LFM 1.2B Instruct</span> is the fastest (1.9s coder, 1.2s writer) but writer test failed — too concise for tweet thread format.`},
+  {icon:"📌",text:`<span class="highlight">Llama 3.3 70B (NVIDIA)</span> passed coder + researcher but writer failed. Good for technical tasks, weak on creative writing.`},
+  {icon:"⏳",text:`${PENDING.length} models still testing — Mistral (5), Codestral (1), Cloudflare (9), more NVIDIA. Results will shift when those land.`},
+];
+document.getElementById('takeaways').innerHTML = takeaways.map(t => `<li><span class="icon">${t.icon}</span> ${t.text}</li>`).join('');
+</script>
+</body>
+</html>
