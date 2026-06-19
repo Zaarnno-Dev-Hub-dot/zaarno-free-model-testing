@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Model Testing — Decision Matrix</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1100px; margin: 20px auto; padding: 0 20px; background: #0f172a; color: #e2e8f0; }
+  h1, h2, h3 { color: #f8fafc; }
+  h1 { border-bottom: 1px solid #334155; padding-bottom: 10px; }
+  table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 13px; }
+  th { background: #1e293b; color: #93c5fd; text-align: left; padding: 8px 10px; border: 1px solid #334155; }
+  td { padding: 6px 10px; border: 1px solid #334155; }
+  tr:hover { background: #1e293b; }
+  .pass { color: #4ade80; font-weight: bold; }
+  .fail { color: #f87171; }
+  .best { background: #064e3b; }
+  .runner { background: #1a2e1a; }
+  .cloud-row { background: #1e1b4b; }
+  .summary-card { display: inline-block; background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 15px 20px; margin: 8px; min-width: 200px; }
+  .card-label { font-size: 11px; color: #94a3b8; text-transform: uppercase; }
+  .card-value { font-size: 22px; font-weight: bold; color: #f8fafc; margin-top: 4px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .tag-cloud { background: #312e81; color: #c7d2fe; }
+  .tag-proxy { background: #1e3a5f; color: #93c5fd; }
+  .tag-gold { background: #92400e; color: #fde68a; }
+  .tag-silver { background: #374151; color: #d1d5db; }
+</style>
+</head>
+<body>
+<h1>🏆 Free Model Decision Matrix</h1>
+
+<div class="summary-card">
+  <div class="card-label">Models Tested</div>
+  <div class="card-value">35</div>
+</div>
+<div class="summary-card">
+  <div class="card-label">Providers</div>
+  <div class="card-value">6</div>
+</div>
+<div class="summary-card">
+  <div class="card-label">Working (3/3)</div>
+  <div class="card-value">16</div>
+</div>
+<div class="summary-card">
+  <div class="card-label">Working (2+/3)</div>
+  <div class="card-value">29</div>
+</div>
+
+<p style="color: #94a3b8; margin: 20px 0;">May 26, 2026 — 6 providers, 35 models, 3 disciplines. <span class="tag tag-cloud">Ollama Cloud</span> rows are new this round.</p>
+
+<h2>📋 Hire This Model for This Job</h2>
+
+<table>
+<tr><th>Role</th><th>🥇 Best Pick</th><th>Provider</th><th>Latency</th><th>🥈 Runner-Up</th><th>Provider</th><th>Latency</th></tr>
+<tr>
+  <td><strong>Coding</strong></td>
+  <td><span class="tag tag-proxy">openrouter</span> liquid/lfm-2.5-1.2b-instruct:free</td>
+  <td>openrouter</td>
+  <td>1.94s</td>
+  <td><span class="tag tag-proxy">mistral</span> ministral-8b-2512</td>
+  <td>mistral</td>
+  <td>2.18s</td>
+</tr>
+<tr>
+  <td><strong>Writing</strong></td>
+  <td><span class="tag tag-proxy">codestral</span> codestral-latest</td>
+  <td>codestral</td>
+  <td>2.16s</td>
+  <td><span class="tag tag-proxy">openrouter</span> nvidia/nemotron-3-nano-30b-a3b:free</td>
+  <td>openrouter</td>
+  <td>2.18s</td>
+</tr>
+<tr>
+  <td><strong>Research</strong></td>
+  <td><span class="tag tag-proxy">openrouter</span> liquid/lfm-2.5-1.2b-instruct:free</td>
+  <td>openrouter</td>
+  <td>2.2s</td>
+  <td><span class="tag tag-proxy">nvidia</span> nvidia/nemotron-3-nano-30b-a3b</td>
+  <td>nvidia</td>
+  <td>2.29s</td>
+</tr>
+</table>
+
+<h2>📊 All 35 Models — Ranked</h2>
+<table>
+<tr><th>#</th><th>Provider</th><th>Model</th><th>Coder</th><th>Writer</th><th>Researcher</th><th>Score</th></tr>
+<tr class="">
+  <td>1</td>
+  <td>openrouter</td>
+  <td>openai/gpt-oss-120b:free</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>2</td>
+  <td>openrouter</td>
+  <td>openai/gpt-oss-20b:free</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>3</td>
+  <td>openrouter</td>
+  <td>poolside/laguna-m.1:free</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>4</td>
+  <td>openrouter</td>
+  <td>poolside/laguna-xs.2:free</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>5</td>
+  <td>nvidia</td>
+  <td>meta/llama-3.1-70b-instruct</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>6</td>
+  <td>nvidia</td>
+  <td>meta/llama-4-maverick-17b-128e-instruct</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>7</td>
+  <td>nvidia</td>
+  <td>nvidia/nemotron-3-nano-30b-a3b</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>8</td>
+  <td>mistral</td>
+  <td>mistral-large-latest</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>9</td>
+  <td>mistral</td>
+  <td>devstral-latest</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>10</td>
+  <td>codestral</td>
+  <td>codestral-latest</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>11</td>
+  <td>cloudflare</td>
+  <td>@cf/ibm-granite/granite-4.0-h-micro</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>12</td>
+  <td>cloudflare</td>
+  <td>@cf/meta/llama-3.3-70b-instruct-fp8-fast</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>13</td>
+  <td>cloudflare</td>
+  <td>@cf/meta/llama-4-scout-17b-16e-instruct</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="cloud-row">
+  <td>14</td>
+  <td>ollama-cloud</td>
+  <td>gpt-oss:20b-cloud</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="cloud-row">
+  <td>15</td>
+  <td>ollama-cloud</td>
+  <td>gpt-oss:120b-cloud</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="cloud-row">
+  <td>16</td>
+  <td>ollama-cloud</td>
+  <td>qwen3-coder:480b-cloud</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>3/3</td>
+</tr>
+<tr class="">
+  <td>17</td>
+  <td>openrouter</td>
+  <td>liquid/lfm-2.5-1.2b-instruct:free</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>18</td>
+  <td>openrouter</td>
+  <td>nvidia/nemotron-3-super-120b-a12b:free</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>19</td>
+  <td>openrouter</td>
+  <td>nvidia/nemotron-3-nano-30b-a3b:free</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>20</td>
+  <td>openrouter</td>
+  <td>nvidia/nemotron-nano-9b-v2:free</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>21</td>
+  <td>openrouter</td>
+  <td>liquid/lfm-2.5-1.2b-thinking:free</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>22</td>
+  <td>openrouter</td>
+  <td>z-ai/glm-4.5-air:free</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>23</td>
+  <td>nvidia</td>
+  <td>meta/llama-3.3-70b-instruct</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>24</td>
+  <td>nvidia</td>
+  <td>mistralai/mistral-large-3-675b-instruct-2512</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="fail">❌</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>25</td>
+  <td>nvidia</td>
+  <td>nvidia/nemotron-3-super-120b-a12b</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>26</td>
+  <td>mistral</td>
+  <td>ministral-8b-2512</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>27</td>
+  <td>mistral</td>
+  <td>mistral-medium-latest</td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>28</td>
+  <td>cloudflare</td>
+  <td>@cf/deepseek-ai/deepseek-r1-distill-qwen-32b</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>29</td>
+  <td>cloudflare</td>
+  <td>@cf/zai-org/glm-4.7-flash</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="pass">✅</span></td>
+  <td>2/3</td>
+</tr>
+<tr class="">
+  <td>30</td>
+  <td>openrouter</td>
+  <td>nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="pass">✅</span></td>
+  <td><span class="fail">❌</span></td>
+  <td>1/3</td>
+</tr>
+<tr class="">
+  <td>31</td>
+  <td>mistral</td>
+  <td>magistral-medium-latest</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td>0/3</td>
+</tr>
+<tr class="">
+  <td>32</td>
+  <td>cloudflare</td>
+  <td>@cf/moonshotai/kimi-k2.5</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td>0/3</td>
+</tr>
+<tr class="">
+  <td>33</td>
+  <td>cloudflare</td>
+  <td>@cf/moonshotai/kimi-k2.6</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td>0/3</td>
+</tr>
+<tr class="">
+  <td>34</td>
+  <td>cloudflare</td>
+  <td>@cf/openai/gpt-oss-120b</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td>0/3</td>
+</tr>
+<tr class="">
+  <td>35</td>
+  <td>cloudflare</td>
+  <td>@cf/qwen/qwen3-30b-a3b-fp8</td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td><span class="fail">❌</span></td>
+  <td>0/3</td>
+</tr>
+</table>
+
+<h2>🚀 Ollama Cloud Findings</h2>
+<p>Ollama Cloud was tested as a 6th provider. Key findings:</p>
+<ul>
+  <li><strong>Signed in as 'novazaarno007'</strong> — Ollama Cloud is authenticated.</li>
+  <li><strong>3 free-tier cloud models work:</strong></li>
+  <ul>
+    <li><code>gpt-oss:20b-cloud</code> → 3/3 all disciplines, fast (3.8–6.0s) ⭐ <strong>Best new generalist</strong></li>
+    <li><code>gpt-oss:120b-cloud</code> → 3/3 all disciplines, moderate (6.0–12.3s) — stronger than OpenRouter's 120b</li>
+    <li><code>qwen3-coder:480b-cloud</code> → 3/3 all disciplines, coder is blazing (3.6s)</li>
+  </ul>
+  <li><strong>Models requiring Pro:</strong> kimi-k2.5/6:cloud, glm-5/5.1:cloud, minimax-m2.7:cloud, nemotron-3-super:120b-cloud, gemma4:31b-cloud — all require $20/mo Pro.</li>
+  <li><strong>Free tier</strong> gives "light usage" with 1 concurrent model. Session resets every 5h, weekly every 7d.</li>
+</ul>
+
+<h2>🏁 Bottom Line</h2>
+<table>
+<tr><th>Need...</th><th>Use this model</th><th>Via</th></tr>
+<tr class="best"><td>Fastest coder</td><td>codestral-latest (2.3s)</td><td>Codestral Free</td></tr>
+<tr class="best"><td>Fastest writer</td><td>codestral-latest (2.2s) or llama-4-scout (2.3s)</td><td>Codestral / Cloudflare</td></tr>
+<tr class="best"><td>Fastest researcher</td><td>nemotron-3-nano-30b (2.3s)</td><td>NVIDIA Free</td></tr>
+<tr class="runner"><td>Best all-rounder (speed)</td><td>poolside/laguna-xs.2 (3.7–4.9s)</td><td>OpenRouter Free</td></tr>
+<tr class="runner"><td>Best all-rounder (quality)</td><td>gpt-oss:20b-cloud (3.8–6.0s)</td><td>Ollama Cloud Free ⭐</td></tr>
+<tr class="runner"><td>Maximum power coder</td><td>qwen3-coder:480b-cloud (3.6s)</td><td>Ollama Cloud Free</td></tr>
+<tr><td>Best value speed</td><td>nemotron-3-nano-30b (2.4–2.7s, 3/3)</td><td>NVIDIA Free</td></tr>
+<tr><td>Solid generalist (free)</td><td>mistral-large-latest (3.3–6.6s)</td><td>Mistral Free</td></tr>
+</table>
+
+<p style="color: #64748b; margin-top: 20px;">Generated: 2026-05-26 | Freellmapi on :3003 | Ollama Cloud via localhost:11434</p>
+</body>
+</html>
