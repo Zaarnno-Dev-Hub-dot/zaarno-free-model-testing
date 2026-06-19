@@ -6,33 +6,42 @@ Tests all working models across 3 disciplines: Coder, Writer, Researcher
 import json, subprocess, time, os, re, sys
 from datetime import datetime
 
-BASE_DIR = os.path.expanduser("~/Desktop/My Projects/Free Model Testing")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# === API KEYS ===
+def _require_env(name: str) -> str:
+    val = os.environ.get(name, "").strip()
+    if not val:
+        print(f"Missing env var: {name} (see .env.example)", file=sys.stderr)
+        sys.exit(1)
+    return val
+
+_cf_account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").strip()
+
+# === API KEYS (from environment — never commit secrets) ===
 KEYS = {
     "openrouter": {
         "url": "https://openrouter.ai/api/v1/chat/completions",
-        "key": "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",
+        "key": os.environ.get("OPENROUTER_API_KEY", ""),
         "headers": {"HTTP-Referer": "https://localhost", "X-Title": "Free Model Testing"},
     },
     "nvidia": {
         "url": "https://integrate.api.nvidia.com/v1/chat/completions",
-        "key": "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",
+        "key": os.environ.get("NVIDIA_API_KEY", ""),
         "headers": {},
     },
     "mistral": {
         "url": "https://api.mistral.ai/v1/chat/completions",
-        "key": "0AoJxDken2sIaV2JiOjsByHmD2RtipmM",
+        "key": os.environ.get("MISTRAL_API_KEY", ""),
         "headers": {},
     },
     "codestral": {
         "url": "https://codestral.mistral.ai/v1/chat/completions",
-        "key": "zmCRrFeqF2GrmtfWTX3XLYrya9hqWKMK",
+        "key": os.environ.get("CODESTRAL_API_KEY", ""),
         "headers": {},
     },
     "cloudflare": {
-        "url": "https://api.cloudflare.com/client/v4/accounts/6e53efcdec56f0ebc59702f1b04b3a82/ai/v1/chat/completions",
-        "key": "cfut_BIYsc35UpAs4vPHYe4Hmn9hkNR3oh2Ea3soTJvprf4524ca7",
+        "url": f"https://api.cloudflare.com/client/v4/accounts/{_cf_account}/ai/v1/chat/completions" if _cf_account else "",
+        "key": os.environ.get("CLOUDFLARE_API_TOKEN", ""),
         "headers": {},
     },
 }
@@ -241,6 +250,24 @@ def extract_content_from_response(result):
 
 
 # === MAIN RUNNER ===
+_apis_needed = {api for api, _ in MODELS}
+_env_map = {
+    "openrouter": ["OPENROUTER_API_KEY"],
+    "nvidia": ["NVIDIA_API_KEY"],
+    "mistral": ["MISTRAL_API_KEY"],
+    "codestral": ["CODESTRAL_API_KEY"],
+    "cloudflare": ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID"],
+}
+for api_name in _apis_needed:
+    for env_name in _env_map.get(api_name, []):
+        _require_env(env_name)
+    KEYS[api_name]["key"] = _require_env(_env_map[api_name][0])
+    if api_name == "cloudflare":
+        account = os.environ["CLOUDFLARE_ACCOUNT_ID"].strip()
+        KEYS["cloudflare"]["url"] = (
+            f"https://api.cloudflare.com/client/v4/accounts/{account}/ai/v1/chat/completions"
+        )
+
 results = []
 print(f"=== FREE MODEL DISCIPLINE TESTS ===")
 print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
