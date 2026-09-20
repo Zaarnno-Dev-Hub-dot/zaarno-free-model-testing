@@ -1,56 +1,52 @@
 # Zaarno Free Model Testing
 
-Benchmark harness for **free-tier cloud LLM APIs** — tests 35+ models across OpenRouter, NVIDIA NIM, Mistral, Codestral, and Cloudflare Workers AI using three disciplines: Coder, Writer, Researcher.
+Free-tier cloud LLM benchmark harness — run dozens of models across coder / writer / researcher disciplines and compare results in HTML reports.
 
-**GitHub:** [Zaarnno-Dev-Hub-dot/zaarno-free-model-testing](https://github.com/Zaarnno-Dev-Hub-dot/zaarno-free-model-testing)  
-**Gateway (production proxy):** [zaarno-freellmapi](https://github.com/Zaarnno-Dev-Hub-dot/zaarno-freellmapi) on `127.0.0.1:3003`  
-**Local LLM benchmarks:** [zaarno-local-llm-benchmark](https://github.com/Zaarnno-Dev-Hub-dot/zaarno-local-llm-benchmark)
+## What it is
 
-## Results (May 2026 run)
+Python scripts that call free or free-tier APIs (OpenRouter, NVIDIA NIM, Mistral/Codestral, Cloudflare Workers AI, and similar), score responses on three disciplines, and write JSON + HTML under `results/`.
 
-| Metric | Value |
-|--------|-------|
-| Models tested | 35 across 6 providers |
-| Full generalists (3/3 disciplines) | 16 |
-| Top picks | Poolside XS.2, Codestral, Nemotron Nano 30B, GPT-OSS 120B |
+**Optional gateway:** You can route single tasks through a local [FreeLLMAPI](https://github.com/Zaarnno-Dev-Hub-dot/zaarno-freellmapi)-compatible proxy via `dispatch.py` (`FREELMAPI_URL` / `FREELMAPI_KEY`). FreeLLMAPI is used here as optional gateway plumbing — **not claimed as original Zaarno IP**. The discipline harness talks to providers directly for cleaner per-model numbers.
 
-Open `results/final_report.html` or `results/decision_matrix.html` in a browser for the full visual report.
+## Features
+
+- Multi-provider free-model matrix (`run_discipline_tests.py`)
+- Three disciplines: coder, writer, researcher
+- HTML reports under `results/` (e.g. `final_report.html`, `decision_matrix.html`) plus JSON dumps
+- `dispatch.py` — ordered fallback chain through a FreeLLMAPI-compatible endpoint
 
 ## Quick start
 
 ```bash
-cd ~/Desktop/My\ Projects/Free\ Model\ Testing
+git clone https://github.com/Zaarnno-Dev-Hub-dot/zaarno-free-model-testing.git
+cd zaarno-free-model-testing
 cp .env.example .env
-# Fill keys in .env (or export from ~/.secrets/)
+# Fill keys in .env (never commit .env)
 
-# Run full discipline suite (~30–60 min)
+# Full discipline suite (can take a while)
 python3 run_discipline_tests.py
 
-# Route a single task through freellmapi fallback chain
-export FREELMAPI_KEY=your-freellmapi-bearer-token
+# Optional: one-shot via local FreeLLMAPI gateway
+# export FREELMAPI_URL=http://127.0.0.1:3003/v1/chat/completions
+# export FREELMAPI_KEY=your-local-bearer
 python3 dispatch.py coder "Write a Python flatten_json function"
 ```
 
-## Scripts
+Open results in a browser:
 
-| File | Purpose |
-|------|---------|
-| `run_discipline_tests.py` | Full 3-discipline benchmark across all configured models |
-| `dispatch.py` | Task router — picks best free model per discipline via freellmapi |
-| `results/` | JSON + HTML reports from benchmark runs |
+- [`results/final_report.html`](results/final_report.html)
+- [`results/decision_matrix.html`](results/decision_matrix.html)
 
-## Providers tested
+## Environment
 
-- **OpenRouter** — 19 free models (Llama, GPT-OSS, Nemotron, Poolside, etc.)
-- **NVIDIA NIM** — Llama 3.3/4, Nemotron, Mistral Large
-- **Mistral** — Large, Medium, Devstral, Magistral
-- **Codestral** — codestral-latest (fast coder)
-- **Cloudflare Workers AI** — Kimi, DeepSeek distill, Llama Scout, GLM, GPT-OSS
+See `.env.example` for provider key names. Copy to `.env` and set only the providers you use. Keys never belong in git.
 
 ## Security
 
-API keys must live in `.env` or `~/.secrets/` — never in git. If keys were previously in plaintext scripts, rotate them.
+API keys live in `.env` (gitignored) or your secret store — never in tracked files. Rotate anything that ever landed in git history.
 
-## Agent notes
+## License
 
-See `AGENTS.md`. Wiki runbook: `~/wiki/projects/free-model-testing/run.md`.
+MIT — see [LICENSE](LICENSE). Copyright (c) 2026 Zachary Arnold.
+
+Anyone may use, modify, and redistribute this harness under the MIT terms.
