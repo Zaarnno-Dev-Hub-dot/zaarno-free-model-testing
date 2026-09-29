@@ -6,7 +6,7 @@ Free-tier cloud LLM benchmark harness — run dozens of models across coder / wr
 
 Python scripts that call free or free-tier APIs (OpenRouter, NVIDIA NIM, Mistral/Codestral, Cloudflare Workers AI, and similar), score responses on three disciplines, and write JSON + HTML under `results/`.
 
-**Optional gateway:** You can route single tasks through a local [FreeLLMAPI](https://github.com/Zaarnno-Dev-Hub-dot/zaarno-freellmapi)-compatible proxy via `dispatch.py` (`FREELMAPI_URL` / `FREELMAPI_KEY`). FreeLLMAPI is used here as optional gateway plumbing — **not claimed as original Zaarno IP**. The discipline harness talks to providers directly for cleaner per-model numbers.
+**Optional gateway:** You can route single tasks through a local FreeLLMAPI-compatible proxy (any local OpenAI-style gateway that exposes `/v1/chat/completions`) via `dispatch.py` (`FREELMAPI_URL` / `FREELMAPI_KEY`). FreeLLMAPI is used here as optional gateway plumbing — **not claimed as original Zaarno IP**. The discipline harness talks to providers directly for cleaner per-model numbers.
 
 ## Features
 
